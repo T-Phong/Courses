@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Courses.Models.ClassSubject>
+@using Courses.Models;
+
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Add</h2>
+
+<form>
+    <div class="form-group">
+        <label>ID Exercise</label>
+        <input type="text" class="form-control" id="IDExercise">
+    </div>
+    <div class="form-group">
+        <label>Exercise Name</label>
+        <input type="text" class="form-control" id="ExerciseName">
+    </div>
+    <div class="form-group">
+        <label>Content</label>
+        <input type="text" class="form-control" id="Content">
+    </div>
+    <div class="form-group">
+        <label>Create Date</label>
+        <input type="text" class="form-control" id="CreateDate">
+    </div>
+    <div class="form-group">
+        <label>Deadline</label>
+        <input type="text" class="form-control" id="Deadline">
+    </div>
+    <div class="form-group">
+        <label>Subject Name</label>
+        <select id="IDSubject" class="form-control">
+            @foreach (ClassSubject cs in Model.ToList())
+            {
+                <option value="@cs.IDSubject">@cs.SubjectName</option>
+            }
+        </select>
+    </div>
+    <button type="button" class="btn btn-primary" id="btnAdd" onclick="return AddEx();">Add</button>
+    <button type="button" class="btn btn-danger"><a href="Index">Back To Home</a></button>
+</form>
+
+
+<script>
+    function AddEx() {
+        var classid = $("select.form-control").val().toString();
+
+        var empObj = {
+            IDUser: "SV01",
+            IDExercise: $('#IDExercise').val(),
+            ExerciseName: $('#ExerciseName').val(),
+            Content: $('#Content').val(),
+            CreateDate: $('#CreateDate').val(),
+            Deadline: $('#Deadline').val(),
+            IDSubject: classid,
+        };
+        $.ajax({
+            url: "/Exercise/AddEx",
+            data: JSON.stringify(empObj),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                alert("success");
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+
+        });
+    }
+</script>
+
+
+

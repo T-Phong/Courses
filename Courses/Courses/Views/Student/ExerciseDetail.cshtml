@@ -1,0 +1,150 @@
+﻿
+@{
+    ViewBag.Title = "ExerciseDetail";
+    Layout = "~/Views/Shared/_LayoutsCourses.cshtml";
+}
+@{
+    var exname = (Courses.Models.ExerciseSubject)ViewBag.Exdetail;
+    var user = Session["usersession"] as Courses.Models.User;
+}
+<h2>ExerciseDetail</h2>
+<!-- ======= Breadcrumbs ======= -->
+<div class="breadcrumbs" data-aos="fade-in">
+    <div class="container">
+        <a style="color:white;" href="/Student/SubjectDetail?idsub=@exname.IDSubject"><h2>@ViewBag.SubjectName</h2></a>
+    </div>
+</div><!-- End Breadcrumbs -->
+<!-- ======= Cource Details Section ======= -->
+<section id="course-details" class="course-details">
+
+    <div class="container" data-aos="fade-up">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>@exname.ExerciseName</h1>
+            </div>
+            <div class="col-lg-12">
+                <div class="course-info d-flex justify-content-between align-items-center">
+                    <h5>Submission status</h5>
+                    @if (exname.Content != null)
+                    {
+                        <p><a href="#">Yes</a></p>
+                    }
+                    else
+                    {
+                        <p><a href="#">No</a></p>
+                    }
+                </div>
+                <div class="course-info d-flex justify-content-between align-items-center">
+                    <h5>Grading status</h5>
+                    @if (exname.Mark != null)
+                    {
+                        <p><a href="#">Yes</a></p>
+                    }
+                    else
+                    {
+                        <p><a href="#">No</a></p>
+                    }
+                </div>
+                <div class="course-info d-flex justify-content-between align-items-center">
+                    <h5>Deadline</h5>
+                    <p>@exname.DeadLine</p>
+                    <input id="inputidex" value="@exname.IDExercise" hidden />
+                    <input id="inputiduser" value="@exname.IDUser" hidden />
+                    <input id="inputcontent" value="@exname.Content" hidden />
+                    <input id="inputidsub" value="@exname.IDSubject" hidden />
+                </div>
+                <div class="course-info d-flex justify-content-between align-items-center">
+                    <h5>Time remaining</h5>
+                    @if (@ViewBag.Dayremain > 0)
+                    {
+                        <p>@ViewBag.Dayremain day</p>
+                    }
+                    else
+                    {
+                        <p>0 day</p>
+                    }
+                </div>
+
+                <div class="course-info d-flex justify-content-between align-items-center">
+                    <h5>Submission</h5>
+                    @if (exname.Content != null)
+                    {
+                        <p>@exname.Content</p>
+                    }
+                    else
+                    {
+                        <p>... file</p>
+                    }
+
+                </div>
+                @if (ViewBag.Dayremain > 0 && user.TypeUser == 1)
+                {
+                    <div class="col text-center">
+                        <button type="button" class="btn btn-primary" text-align="center" data-toggle="modal" data-target="#exampleModal" data-whatever="">Submit</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section><!-- End Cource Details Section -->
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Submit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Your ans:</label>
+                        @if (exname.Content != null)
+                        {
+                            <input type="text" class="form-control" id="recipient-name" value="@exname.Content">
+                        }
+                        else
+                        {
+                            <input type="text" class="form-control" id="recipient-name">
+                        }
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="SaveContentEx();">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function SaveContentEx() {
+
+        var empObj = {
+            IDExercise: jQuery("#inputidex").val(),
+            IDUser: jQuery("#inputiduser").val(),
+            Content: jQuery("#recipient-name").val(),
+            IDSubject: jQuery("#inputidsub").val()
+        };
+        alert(empObj.IDExercise + empObj.IDUser + empObj.Content + empObj.IDSubject);
+        $.ajax({
+            url: "/Student/SaveEx?idex=" + empObj.IDExercise + "&&iduser=" + empObj.IDUser + "&&content=" + empObj.Content + "&&idsubject=" + empObj.IDSubject + "",
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                alert("success");
+                window.location.reload();
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+</script>

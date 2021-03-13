@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<div class="container">
+    <h2>Index (Users)</h2>
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>
+                    IDUser
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Action
+                </th>
+            </tr>
+        </thead>
+        <tbody class="tbody">
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-success" id="btnFind"><a href="Add">Add</button>
+</div>
+
+<script>
+    $(document).ready(function () {
+        GetAll();
+    });
+    function GetAll() {     
+        $.ajax({
+            url: "/User/GetAll",
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+
+            success: function (result) {
+                var html = '';
+                $.each(result, function (key, item) {
+                    html += '<tr>';
+                    html += '<td>' + item.IDUser + '</td>';
+                    html += '<td>' + item.Name + '</td>';
+                    html += '<td><a href="Edit?id=' + item.IDUser + '">Details</a> | <a href="#" onClick="Delete(\'' + item.IDUser + '\')">Delete</a></td>';
+                    html += '</tr>';
+                });
+                $('.tbody').html(html);
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+    function Delete(id) {
+        alert(id);
+        $.ajax({
+            url: "/User/DelUser?u=" + id,
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                alert("Delete success ID" + id);
+                GetAll();
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+</script>

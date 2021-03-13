@@ -1,0 +1,184 @@
+﻿@model IEnumerable<Courses.Models.ClassSubject>
+@using Courses.Models;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<div class="container">
+    <h2>Index (Subject)</h2>
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>
+                    ID Subject
+                </th>
+                <th>
+                    Subject name
+                </th>
+                <th>
+                    Class ID
+                </th>
+                <th>
+                    Action
+                </th>
+            </tr>
+        </thead>
+        <tbody class="tbody">
+            @foreach (ClassSubject cs in Model.ToList())
+            {
+                <tr>
+                    <td>
+                        @cs.IDSubject
+                    </td>
+                    <td>
+                        @cs.SubjectName
+                    </td>
+                    <td>
+                        @cs.IDClass
+                    </td>
+                    <td>
+                        <a href="@cs.SubjectName" onclick="DellSubject('@cs.IDSubject')">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myAdd" onclick="return AddSubject();" id="btnGetIDClass">Add</button>
+</div>
+
+
+
+<!-- Add -->
+<div class="modal fade" id="myAdd" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Add</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <label>ID Subject</label>
+                <input type="text" class="form-control" id="IDSubjectAdd">
+                <label>Subject Name</label>
+                <input type="text" class="form-control" id="SubjectNameAdd">
+                <label>ID Class</label>
+                <select id="ClassID" class="form-control">
+
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onClick="window.location.reload();">Close</button>
+                <button type="button" class="btn btn-success" onclick="return SaveAddSubject();">Save</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    function DellSubject(id) {
+        $.ajax({
+            url: "/ClassSubject/DelSubject?idsubject=" + id,
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                window.location.reload();
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+    function AddSubject() {
+        $.ajax({
+            url: "/ClassSubject/GetAllClass",
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                var html = '';
+                $.each(result, function (key, item) {
+                    html += '<option value="' + item.IDClass + '">' + item.ClassName + '</option>';
+
+                });
+                $('.form-control').html(html);
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+    function SaveAddSubject() { 
+        var classid = $("select.form-control").val().toString();
+        var empObj = {
+            IDSubject: $('#IDSubjectAdd').val(),
+            SubjectName: $('#SubjectNameAdd').val(),
+            IDClass: classid
+            
+        };
+        alert(empObj.SubjectName);
+        $.ajax({
+            url: "/ClassSubject/AddSubject",
+            data: JSON.stringify(empObj),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                alert("success");
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //function GetSubject(id) {
+    //    $.ajax({
+    //        url: "/ClassSubject/GetSubjectByID?id=" + id,
+    //        type: "GET",
+    //        contentType: "application/json;charset=utf-8",
+    //        dataType: "json",
+    //        success: function (result) {
+    //            var html = '';
+    //            html += '<label>ID Subject</label>';
+    //            html += '<input type="text" class="form-control" id="IDSubject" value="' + result.IDSubject + '" disabled="disabled">';
+    //            html += '<label>Subject Name</label>';
+    //            html += '<input type="text" class="form-control" id="SubjectName" value="' + result.SubjectName + '">';
+    //            html += '<label>Class ID</label>';
+    //            html += '<select id="ClassID" class="form-control">';
+    //            html += '<option value="">' + result.IDClass + '</option>';
+    //            html += '</select >';
+    //            $('.modal-body').html(html);
+    //        },
+    //        error: function (errormessage) {
+    //            alert(errormessage.responseText);
+    //        }
+    //    });
+    //}
+</script>

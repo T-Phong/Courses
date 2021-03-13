@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="CourseModelStoreContainer" CdmEntityContainer="CourseEntities">
+    <EntitySetMapping Name="Classes">
+      <EntityTypeMapping TypeName="CourseModel.Class">
+        <MappingFragment StoreEntitySet="Class">
+          <ScalarProperty Name="IDClass" ColumnName="IDClass" />
+          <ScalarProperty Name="ClassName" ColumnName="ClassName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ClassSubjects">
+      <EntityTypeMapping TypeName="CourseModel.ClassSubject">
+        <MappingFragment StoreEntitySet="ClassSubject">
+          <ScalarProperty Name="IDSubject" ColumnName="IDSubject" />
+          <ScalarProperty Name="SubjectName" ColumnName="SubjectName" />
+          <ScalarProperty Name="IDClass" ColumnName="IDClass" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ExerciseSubjects">
+      <EntityTypeMapping TypeName="CourseModel.ExerciseSubject">
+        <MappingFragment StoreEntitySet="ExerciseSubject">
+          <ScalarProperty Name="IDExercise" ColumnName="IDExercise" />
+          <ScalarProperty Name="IDUser" ColumnName="IDUser" />
+          <ScalarProperty Name="ExerciseName" ColumnName="ExerciseName" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="DeadLine" ColumnName="DeadLine" />
+          <ScalarProperty Name="IDSubject" ColumnName="IDSubject" />
+          <ScalarProperty Name="Mark" ColumnName="Mark" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="CourseModel.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="IDUser" ColumnName="IDUser" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="DOB" ColumnName="DOB" />
+          <ScalarProperty Name="TypeUser" ColumnName="TypeUser" />
+          <ScalarProperty Name="IDClass" ColumnName="IDClass" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

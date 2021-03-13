@@ -1,0 +1,178 @@
+﻿@model IEnumerable<Courses.Models.Class>
+@using Courses.Models;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<div class="container">
+    <h2>Index (Class)</h2>
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>
+                    IDClass
+                </th>
+                <th>
+                    Class Name
+                </th>
+                <th>
+                    Action
+                </th>
+            </tr>
+        </thead>
+        <tbody class="tbody">
+            @foreach (Class c in Model.ToList())
+            {
+                <tr>
+                    <td>
+                        @c.IDClass
+                    </td>
+                    <td>
+                        @c.ClassName
+                    </td>
+                    <td>
+                        <a href="#" data-toggle="modal" data-target="#myModal" onclick="GetClass('@c.IDClass')">Edit</a> | <a href="@c.ClassName" onclick="DelClass('@c.IDClass')" >Delete</a>
+                    </td>
+                    <!--<td>
+                        <div class="container">-->
+                            <!-- Trigger the modal with a button -->
+                            <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="GetClass('@c.IDClass')" id="btnGetIDClass">Edit Class @c.ClassName</button>
+                            <button type="button" class="btn btn-primary" onclick="DelClass('@c.IDClass')" id="btnDelClass">Delete Class @c.ClassName</button>
+                        </div>
+                    </td>-->
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myAdd" onclick="return AddClass();" id="btnGetIDClass">Add</button>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Edit</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onClick="window.location.reload();">Close</button>
+                <button type="button" class="btn btn-success" onclick="return SaveClass();">Save</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Add -->
+<div class="modal fade" id="myAdd" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Add</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <label>ID Class</label>
+                <input type="text" class="form-control" id="IDClassAdd">
+                <label>Class Name</label>
+                <input type="text" class="form-control" id="ClassNameAdd">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onClick="window.location.reload();">Close</button>
+                <button type="button" class="btn btn-success" onclick="return SaveAddClass();">Save</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    function DelClass(id) {
+        $.ajax({
+            url: "/Class/DelClass?IDClass=" + id,
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                window.location.reload();
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+    function SaveAddClass() {
+        var empObj = {
+            IDClass: $('#IDClassAdd').val(),
+            ClassName: $('#ClassNameAdd').val(),
+        };
+        $.ajax({
+            url: "/Class/AddClass",
+            data: JSON.stringify(empObj),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                alert("success");
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+    function GetClass(id) {
+        $.ajax({
+            url: "/Class/GetClassByID?id=" + id,
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                var html = '';
+                html += '<label>ID Class</label>';
+                html += '<input type="text" class="form-control" id="IDClass" value="' + result.IDClass + '" disabled="disabled">';
+                html += '<label>Class Name</label>';
+                html += '<input type="text" class="form-control" id="ClassName" value="' + result.ClassName + '">';
+                $('.modal-body').html(html);
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+    function SaveClass() {
+        var empObj = {
+            IDClass: $('#IDClass').val(),
+            ClassName: $('#ClassName').val(),
+        };
+        $.ajax({
+            url: "/Class/EditClass",
+            data: JSON.stringify(empObj),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                alert("success");
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+</script>
+

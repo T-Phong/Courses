@@ -1,0 +1,160 @@
+﻿@model IEnumerable<Courses.Models.ClassSubject>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutsCourses.cshtml";
+}
+@{
+    var user = Session["usersession"] as Courses.Models.User;
+}
+
+<!-- ======= Hero Section ======= -->
+<section id="hero" class="d-flex justify-content-center align-items-center">
+    <div class="container position-relative" data-aos="zoom-in" data-aos-delay="100">
+        <h1>Learning Today,<br>Leading Tomorrow</h1>
+        <h2>We are team of talented designers making websites with Bootstrap</h2>
+        <a href="courses.html" class="btn-get-started">Get Started</a>
+    </div>
+</section><!-- End Hero -->
+<!-- ======= About Section ======= -->
+<section id="about" class="about">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+            <h2>About</h2>
+            <p>About Us</p>
+        </div>
+
+        <div class="row">
+            <div class=" content">
+                <h3>Voluptatem dignissimos provident quasi corporis voluptates sit assumenda.</h3>
+                <p class="font-italic">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                    magna aliqua.
+                </p>
+                <ul>
+                    <li><i class="icofont-check-circled"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
+                    <li><i class="icofont-check-circled"></i> Duis aute irure dolor in reprehenderit in voluptate velit.</li>
+                    <li><i class="icofont-check-circled"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</li>
+                </ul>
+                <p>
+                    Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                </p>
+                <a href="about.html" class="learn-more-btn">Learn More</a>
+            </div>
+        </div>
+
+    </div>
+</section><!-- End About Section -->
+<!-- ======= Counts Section ======= -->
+<section id="counts" class="counts section-bg">
+    <div class="container">
+
+        <div class="row counters">
+
+            <div class="col-lg-4 col-6 text-center">
+                <span data-toggle="counter-up">@ViewBag.CountStudents</span>
+                <p>Students</p>
+            </div>
+
+            <div class="col-lg-4 col-6 text-center">
+                <span data-toggle="counter-up">@ViewBag.CountSubject</span>
+                <p>Courses</p>
+            </div>
+            <div class="col-lg-4 col-6 text-center">
+                <span data-toggle="counter-up">@ViewBag.CountTeach</span>
+                <p>Trainers</p>
+            </div>
+        </div>
+    </div>
+</section><!-- End Counts Section -->
+<!-- ======= Popular Courses Section ======= -->
+<section id="popular-courses" class="courses">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+            <h2>Courses</h2>
+            <p>All Courses</p>
+        </div>
+        <div class="row" data-aos="zoom-in" data-aos-delay="100">
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+                    <div class="course-item">
+                        <div class="course-content">
+                            <h3><a href="SubjectDetail?idsub=@item.IDSubject">@item.SubjectName</a></h3>
+                            <input id="IDSubjectHide" value="@item.IDSubject" />
+
+                            <p>Et architecto provident deleniti facere repellat nobis iste. Id facere quia quae dolores dolorem tempore.</p>
+                            <div class="trainer d-flex justify-content-between align-items-center">
+                                <div class="trainer-profile d-flex align-items-center" id="teachname">
+                                    
+                                    <b>Teacher: <a href="#">@Html.Action("Showname", new { idsubject = item.IDSubject })</a></b>
+                                </div>
+                                <div class="trainer-rank d-flex align-items-center">
+                                    <i class="bx bx-user"></i>&nbsp;@Html.Action("StudentofSub", new { idsubject = item.IDSubject })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- End Course Item-->
+            }
+        </div>
+    </div>
+</section><!-- End Popular Courses Section -->
+<!-- ======= Trainers Section ======= -->
+<section id="trainers" class="trainers">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+            <h2>Trainers</h2>
+            <p>Our Professional Trainers</p>
+        </div>
+
+        <div class="row" data-aos="zoom-in" data-aos-delay="100">
+            <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+                <div class="member">
+                    <img src="~/assets/img/trainers/trainer-1.jpg" class="img-fluid" alt="">
+                    <div class="member-content">
+                        <h4>Walter White</h4>
+                        <span>Web Development</span>
+                        <p>
+                            Magni qui quod omnis unde et eos fuga et exercitationem. Odio veritatis perspiciatis quaerat qui aut aut aut
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section><!-- End Trainers Section -->
+
+
+<script>
+    $(document).ready(function () {
+        $('#Teachname').each(function () {
+            var IDSubject = $(this).text();
+            alert(IDSubject);
+        });
+    });
+    function GetNameTeachOfSubject(idsub) {
+
+        alert(idsub);
+        $.ajax({
+            url: "/Student/GetNameTeachOfSubject?idsubject=OOPCD1701",
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+
+                var html = '';
+                $.each(result, function (key, item) {
+                    html += '<span> Teacher: ' + item.Name + ' </span>';
+                });
+                $('#teachname').html(html);
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+</script>

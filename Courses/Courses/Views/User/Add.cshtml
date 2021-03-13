@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Add</h2>
+
+
+<form>
+    <div class="form-group">
+        <label>IDUser</label>
+        <input type="text" class="form-control" id="IDUser">
+    </div>
+    <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="form-control" id="Name">
+    </div>
+    <div class="form-group">
+        <label>Date Of Birth</label>
+        <input type="text" class="form-control" id="DOB">
+    </div>
+    <div class="form-group">
+        <label>Type User</label>
+        <input type="text" class="form-control" id="TypeUser">
+    </div>
+    <div class="form-group">
+        <label>Class Name</label>
+        <select id="ClassID" class="form-control">
+        </select>
+    </div>
+    <button type="button" class="btn btn-primary" id="btnAdd" onclick="return Add();">Add</button>
+    <button type="button" class="btn btn-danger"><a href="Index">Back To Home</a></button>
+
+</form>
+<script>
+    $(document).ready(function () {
+        GetClassName();
+    });
+    function GetClassName() {
+        $.ajax({
+            url: "/User/GetClassName",
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                var html = '';
+                $.each(result, function (key, item) {
+                    html += '<option value="' + item.IDClass + '">' + item.ClassName + '</option>';
+
+                });
+                $('.form-control').html(html);
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+    function Add() {
+        var classid = $("select.form-control").val().toString();
+        var empObj = {
+            IDUser: $('#IDUser').val(),
+            Name: $('#Name').val(),
+            DOB: $('#DOB').val(),
+            TypeUser: $('#TypeUser').val(),
+            IDClass: classid
+        };
+        $.ajax({
+            url: "/User/AddUser",
+            data: JSON.stringify(empObj),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                alert(empObj.IDUser + empObj.Name + empObj.DOB + empObj.TypeUser + empObj.IDClass);
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+
+        });
+    }
+
+</script>

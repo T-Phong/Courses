@@ -1,0 +1,239 @@
+﻿
+@{
+    ViewBag.Title = "SubjectDetail";
+    Layout = "~/Views/Shared/_LayoutsCourses.cshtml";
+}
+@{
+    var exname = (List<Courses.Models.ExerciseSubject>)ViewBag.Exname;
+    var usersession = Session["usersession"] as Courses.Models.User;
+}
+<h2>SubjectDetail</h2>
+<main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs" data-aos="fade-in">
+        <div class="container">
+            <h2>@ViewBag.SubjectName</h2>
+        </div>
+    </div><!-- End Breadcrumbs -->
+    <!-- ======= Cource Details Section ======= -->
+    <section id="course-details" class="course-details">
+
+        <div class="container" data-aos="fade-up">
+            <div class="row">
+
+                <div class="col-lg-12">
+
+                    <div class="course-info d-flex justify-content-between align-items-center">
+                        <h5>Teacher</h5>
+                        @foreach (string item in ViewBag.Teachname)
+                        {
+                            <p class="right"><a href="#">@item</a></p>
+                        }
+
+                    </div>
+
+                    <div class="course-info d-flex justify-content-between align-items-center">
+                        <h5>Course Students</h5>
+                        <p>@ViewBag.Countstudentdetail</p>
+                    </div>
+
+                    <div class="course-info d-flex justify-content-between align-items-center">
+                        <h5>Schedule</h5>
+                        <p>5.00 pm - 7.00 pm</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- End Cource Details Section -->
+    <!-- ======= Cource Details Tabs Section ======= -->
+    <section id="cource-details-tabs" class="cource-details-tabs">
+        <div class="container" data-aos="fade-up">
+            <div class="row">
+                <div class="col-lg-3">
+                    <ul class="nav nav-tabs flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active show" data-toggle="tab" href="#tab-1">Nofitication</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tab-2">Theoretical Lessons</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tab-3">Practice lessons</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tab-4">Project</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tab-5">Document</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-9 mt-4 mt-lg-0">
+                    <div class="tab-content">
+                        <div class="tab-pane active show" id="tab-1">
+                            <div class="row">
+                                <div class="col-lg-12 details order-2 order-lg-1">
+                                    @if (usersession.TypeUser == 2)
+                                    {
+                                        <div class="col-lg-12">
+                                            <a href="#" data-toggle="modal" data-target="#exampleModal1"><h5 style="text-align:right">+ Create Exercise</h5></a>
+                                        </div>
+                                    }
+                                    <h3>List Exercise</h3>
+                                    @if (usersession.TypeUser == 1)
+                                    {
+                                        foreach (var item in exname)
+                                        {
+                                            <div class="col-lg-12">
+                                                <div class="course-info d-flex justify-content-between align-items-center">
+                                                    <a href="ExerciseDetail?subject=@item.IDSubject&exercise=@item.IDExercise"><h5>@item.ExerciseName</h5></a>
+                                                    @if (item.Content != null)
+                                                    {
+                                                        <input type="checkbox" checked="checked" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="checkbox" />
+                                                    }
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                    else if (usersession.TypeUser == 2)
+                                    {
+                                        foreach (var item in ViewBag.ExnameTeach)
+                                        {
+                                            <div class="col-lg-12">
+                                                <div class="course-info d-flex justify-content-between align-items-center">
+                                                    <a href="CalculatedGrades?idex=@item.IDExercise&&idsubject=@item.IDSubject"><h5>@item.ExerciseName</h5></a>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab-2">
+                            <div class="row">
+                                <div class="col-lg-8 details order-2 order-lg-1">
+                                    <h3>Et blanditiis nemo veritatis excepturi</h3>
+                                    <p class="font-italic">Qui laudantium consequatur laborum sit qui ad sapiente dila parde sonata raqer a videna mareta paulona marka</p>
+                                    <p>Ea ipsum voluptatem consequatur quis est. Illum error ullam omnis quia et reiciendis sunt sunt est. Non aliquid repellendus itaque accusamus eius et velit ipsa voluptates. Optio nesciunt eaque beatae accusamus lerode pakto madirna desera vafle de nideran pal</p>
+                                </div>
+                                <div class="col-lg-4 text-center order-1 order-lg-2">
+                                    <img src="assets/img/course-details-tab-2.png" alt="" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab-3">
+                            <div class="row">
+                                <div class="col-lg-8 details order-2 order-lg-1">
+                                    <h3>Impedit facilis occaecati odio neque aperiam sit</h3>
+                                    <p class="font-italic">Eos voluptatibus quo. Odio similique illum id quidem non enim fuga. Qui natus non sunt dicta dolor et. In asperiores velit quaerat perferendis aut</p>
+                                    <p>Iure officiis odit rerum. Harum sequi eum illum corrupti culpa veritatis quisquam. Neque necessitatibus illo rerum eum ut. Commodi ipsam minima molestiae sed laboriosam a iste odio. Earum odit nesciunt fugiat sit ullam. Soluta et harum voluptatem optio quae</p>
+                                </div>
+                                <div class="col-lg-4 text-center order-1 order-lg-2">
+                                    <img src="assets/img/course-details-tab-3.png" alt="" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab-4">
+                            <div class="row">
+                                <div class="col-lg-8 details order-2 order-lg-1">
+                                    <h3>Fuga dolores inventore laboriosam ut est accusamus laboriosam dolore</h3>
+                                    <p class="font-italic">Totam aperiam accusamus. Repellat consequuntur iure voluptas iure porro quis delectus</p>
+                                    <p>Eaque consequuntur consequuntur libero expedita in voluptas. Nostrum ipsam necessitatibus aliquam fugiat debitis quis velit. Eum ex maxime error in consequatur corporis atque. Eligendi asperiores sed qui veritatis aperiam quia a laborum inventore</p>
+                                </div>
+                                <div class="col-lg-4 text-center order-1 order-lg-2">
+                                    <img src="assets/img/course-details-tab-4.png" alt="" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab-5">
+                            <div class="row">
+                                <div class="col-lg-8 details order-2 order-lg-1">
+                                    <h3>Est eveniet ipsam sindera pad rone matrelat sando reda</h3>
+                                    <p class="font-italic">Omnis blanditiis saepe eos autem qui sunt debitis porro quia.</p>
+                                    <p>Exercitationem nostrum omnis. Ut reiciendis repudiandae minus. Omnis recusandae ut non quam ut quod eius qui. Ipsum quia odit vero atque qui quibusdam amet. Occaecati sed est sint aut vitae molestiae voluptate vel</p>
+                                </div>
+                                <div class="col-lg-4 text-center order-1 order-lg-2">
+                                    <img src="assets/img/course-details-tab-5.png" alt="" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section><!-- End Cource Details Tabs Section -->
+
+</main><!-- End #main -->
+
+
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Submit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label class="col-form-label">ID Exercise</label>
+                        <input type="text" class="form-control" id="IDExercise">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Exercise Name</label>
+                        <input type="text" class="form-control" id="ExerciseName">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Deadline</label>
+                        <input type="text" class="form-control" id="Deadline">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="AddExercise();">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function AddExercise() {
+        var url_string = window.location.href
+        var url = new URL(url_string);
+        var c = url.searchParams.get("idsub");
+        var d = new Date();
+        var month = d.getMonth() + 1;
+        var n = d.getFullYear().toString() + "/" + month.toString() + "/" + d.getDate().toString();
+        var empObj = {
+            IDExercise: jQuery("#IDExercise").val(),
+            ExerciseName: jQuery("#ExerciseName").val(),
+            CreateDate: Date.now(),
+            Deadline: jQuery("#Deadline").val(),
+            IDSubject: c
+        };
+        alert(n);
+        $.ajax({
+            url: "AddEx?idex=" + jQuery("#IDExercise").val() + "&&exname=" + jQuery("#ExerciseName").val() + "&&createdate=" + n + "&&deadline=" + jQuery("#Deadline").val() + "&&idsub=" + c + "",
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                alert("success");
+                window.location.reload();
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+</script>

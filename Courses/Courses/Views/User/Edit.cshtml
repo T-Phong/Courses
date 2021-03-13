@@ -1,0 +1,79 @@
+﻿@using Courses.Models;
+@model dynamic
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+<h2>EditView</h2>
+<form>
+    @foreach (UserClass c in Model.User)
+    {
+        <div class="form-group">
+            <label>IDUser</label>
+            <input type="text" class="form-control" id="IDUser" value="@c._IDUser" readonly="readonly">
+        </div>
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" class="form-control" id="Name" value="@c._Name" disabled="disabled">
+        </div>
+        <div class="form-group">
+            <label>Date Of Birth</label>
+            <input type="text" class="form-control" id="DOB" value="@c._DOB" disabled="disabled">
+        </div>
+        <div class="form-group">
+            <label>Type User</label>
+            <input type="text" class="form-control" id="TypeUser" value="@c._TypeUser" disabled="disabled">
+        </div>
+        <div class="form-group">
+            <label id="ClassNamelbl">Class Name</label>
+            <input type="text" class="form-control" id="ClassName" value="@c._ClassName" disabled="disabled">
+        </div>
+    }
+        <div id="abc" class="form-group"hidden>
+            <label>Class Name</label>
+            <select id="ClassID" class="form-control">
+                @foreach (Class c in Model.ClassSubject)
+                {
+                    <option value="@c.IDClass"> @c.ClassName</option>
+                }
+            </select>
+        </div>
+
+    <button type="button" class="btn btn-primary" id="btnAdd" onclick="return edit();">Edit</button>
+    <button type="button" class="btn btn-primary" id="btnAdd" onclick="return save();">Save change</button>
+    <button type="button" class="btn btn-danger"><a href="Index">Back To Home</a></button>
+
+</form>
+<script>
+    function edit() {
+        $("input").removeAttr('disabled');
+        jQuery('#ClassName').remove();
+        jQuery('#ClassNamelbl').remove();
+        jQuery('#abc').removeAttr("hidden");
+    }
+    function save() {
+        var classid = $("select.form-control").val().toString(); 
+        var empObj = {
+            IDUser: $('#IDUser').val(),
+            Name: $('#Name').val(),
+            DOB: $('#DOB').val(),
+            TypeUser: $('#TypeUser').val(),
+            IDClass: classid
+        }; 
+        $.ajax({
+            url: "/User/EditUser",
+            data: JSON.stringify(empObj),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                alert("success");
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+</script>

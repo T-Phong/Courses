@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Courses.Models.ExerciseSubject>
+@using Courses.Models;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<div class="container">
+    <h2>Index (Exercise)</h2>
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>
+                    ID Exercise
+                </th>
+                <th>
+                    ID User
+                </th>
+                <th>
+                    Exercise Name
+                </th>
+                <th>
+                    ID Subject
+                </th>
+                <th>
+                    Action
+                </th>
+            </tr>
+        </thead>
+        <tbody class="tbody">
+            @foreach (ExerciseSubject e in Model.ToList())
+            {
+            <tr>
+                <td>
+                    @e.IDExercise
+                </td>
+                <td>
+                    @e.IDUser
+                </td>
+                <td>
+                    @e.ExerciseName
+                </td>
+                <td>
+                    @e.IDSubject
+                </td>
+                <td>
+                    <a href="Details?iduser=@e.IDUser&&idex=@e.IDExercise&&idcs=@e.IDSubject">Details</a> | <a href="" onclick="DelEx('@e.IDExercise','@e.IDUser')">Delete</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-success" id="btnAddEx"><a href="Add">Add</a></button>
+</div>
+
+
+
+
+<script>
+    function DelEx(idex, iduser) {
+        $.ajax({
+            url: "/Exercise/DelEx?iduser=" + iduser + "&&idex=" + idex,
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                alert("success");
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+
+        });
+    }
+</script>
+

@@ -1,0 +1,55 @@
+﻿@model test01.Areas.Admin.Controllers.Person
+@{
+    ViewBag.Title = "EditView";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+
+<h2>EditView</h2>
+<div class="form-group">
+    <label for="IDPerson">ID</label>
+    <input type="number" class="form-control" id="PersonID" value="@Html.DisplayFor(model => model.ID)">
+</div>
+<div class="form-group">
+    <label for="LastName">LastName</label>
+    <input type="text" class="form-control" id="LastName" value="@Html.DisplayFor(model => model.LastName)">
+</div>
+<div class="form-group">
+    <label for="FirstName">FirstName</label>
+    <input type="text" class="form-control" id="FirstName" value="@Html.DisplayFor(model => model.FirstName)">
+</div>
+<div class="form-group">
+    <label for="Age">Age</label>
+    <input type="number" class="form-control" id="Age" value="@Html.DisplayFor(model => model.Age)">
+</div>
+<button type="button" class="btn btn-primary" id="btnAdd" onclick="return Edit();">Save Change</button>
+<button type="button" class="btn btn-danger"><a href="/Admin/People/Index">Back To Home</a></button>
+
+
+
+<script>
+    function Edit() {
+        var ID1 = parseInt($('#PersonID').val());
+        var Age1 = parseInt($('#Age').val());
+        var obj = {
+            ID: ID1,
+            LastName: $('#LastName').val(),
+            FirstName: $('#FirstName').val(),
+            Age: Age1
+        };
+        $.ajax({
+            url: "/Admin/People/EditLinq",
+            data: JSON.stringify(obj),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                alert("success");
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }  
+        });
+    }
+</script>
+
+
