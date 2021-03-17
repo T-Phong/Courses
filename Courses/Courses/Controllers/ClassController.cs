@@ -9,6 +9,11 @@ namespace Courses.Controllers
 {
     public class ClassController : Controller
     {
+        public JsonResult test()
+        {
+
+            return Json(JsonRequestBehavior.AllowGet);
+        }
         SourceDbContext db = new SourceDbContext();
         //--------------Json result-------------------
         // Get: Class
