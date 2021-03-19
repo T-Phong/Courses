@@ -43,8 +43,19 @@ namespace Courses.Controllers
         [HttpPost]
         public JsonResult AddUser(User u)
         {
-            db.User.Add(u);
-            return Json(db.SaveChanges(), JsonRequestBehavior.AllowGet);
+            db.Configuration.ProxyCreationEnabled = false;
+            var valid = (from s in db.User
+                        where s.IDUser == u.IDUser
+                        select s).SingleOrDefault();
+            if(valid == null)
+            {
+                db.User.Add(u);
+                return Json(db.SaveChanges(), JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("ID User da ton tai, vui long nhap ID khac", JsonRequestBehavior.AllowGet);
+            }
         }
         //POST: Edit
         public JsonResult EditUser(User u)

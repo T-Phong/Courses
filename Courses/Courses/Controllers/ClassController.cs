@@ -11,7 +11,6 @@ namespace Courses.Controllers
     {
         public JsonResult test()
         {
-
             return Json(JsonRequestBehavior.AllowGet);
         }
         SourceDbContext db = new SourceDbContext();
@@ -51,8 +50,19 @@ namespace Courses.Controllers
         //POST: Add class
         public JsonResult AddClass(Class c)
         {
-            db.Class.Add(c);
-            return Json(db.SaveChanges(), JsonRequestBehavior.AllowGet);
+            db.Configuration.ProxyCreationEnabled = false;
+            var valid = (from s in db.Class
+                         where s.IDClass == c.IDClass
+                         select s).SingleOrDefault();
+            if (valid == null)
+            {
+                db.Class.Add(c);
+                return Json(db.SaveChanges(), JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("ID Class da ton tai, vui long nhap ID khac", JsonRequestBehavior.AllowGet);
+            }
         }
         //--------------Action result-----------------
         // GET: ClassSubject

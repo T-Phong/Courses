@@ -122,19 +122,25 @@
             IDClass: $('#IDClassAdd').val(),
             ClassName: $('#ClassNameAdd').val(),
         };
-        $.ajax({
-            url: "/Class/AddClass",
-            data: JSON.stringify(empObj),
-            type: "POST",
-            contentType: "application/json;charset=utf-8",
-            dataType: "json",
-            success: function (result) {
-                alert("success");
-            },
-            error: function (errormessage) {
-                alert(errormessage.responseText);
-            }
-        });
+        if (empObj.IDClass == "" || empObj.ClassName == "") {
+            alert("ban chua dien day du thong tin");
+        }
+        else {
+            $.ajax({
+                url: "/Class/AddClass",
+                data: JSON.stringify(empObj),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    alert(result);
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }
+        
     }
     function GetClass(id) {
         $.ajax({
@@ -160,19 +166,25 @@
             IDClass: $('#IDClass').val(),
             ClassName: $('#ClassName').val(),
         };
-        $.ajax({
-            url: "/Class/EditClass",
-            data: JSON.stringify(empObj),
-            type: "POST",
-            contentType: "application/json;charset=utf-8",
-            dataType: "json",
-            success: function (result) {
-                alert("success");
-            },
-            error: function (errormessage) {
-                alert(errormessage.responseText);
-            }
-        });
+        if (empObj.IDClass == "" || empObj.ClassName == "") {
+            alert("ban chua dien day du thong tin");
+        }
+        else {
+            $.ajax({
+                url: "/Class/EditClass",
+                data: JSON.stringify(empObj),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    alert("success");
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }
+       
     }
 </script>
 

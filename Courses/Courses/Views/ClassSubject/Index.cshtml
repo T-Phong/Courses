@@ -46,7 +46,8 @@
                         @cs.IDClass
                     </td>
                     <td>
-                        <a href="@cs.SubjectName" onclick="DellSubject('@cs.IDSubject')">Delete</a>
+                        <a href="#" data-toggle="modal" data-target="#myModal">Edit</a> | <a href="@cs.SubjectName" onclick="DellSubject('@cs.IDSubject')">Delete</a>
+                        
                     </td>
                 </tr>
             }
@@ -55,6 +56,25 @@
     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myAdd" onclick="return AddSubject();" id="btnGetIDClass">Add</button>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Edit</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onClick="window.location.reload();">Close</button>
+                <button type="button" class="btn btn-success" onclick="return SaveClass();">Save</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 
 <!-- Add -->
@@ -72,9 +92,7 @@
                 <label>Subject Name</label>
                 <input type="text" class="form-control" id="SubjectNameAdd">
                 <label>ID Class</label>
-                <select id="ClassID" class="form-control">
-
-                </select>
+                <select id="ClassID" class="form-control"></select>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal" onClick="window.location.reload();">Close</button>
@@ -120,13 +138,13 @@
             }
         });
     }
-    function SaveAddSubject() { 
+    function SaveAddSubject() {
         var classid = $("select.form-control").val().toString();
         var empObj = {
             IDSubject: $('#IDSubjectAdd').val(),
             SubjectName: $('#SubjectNameAdd').val(),
             IDClass: classid
-            
+
         };
         alert(empObj.SubjectName);
         $.ajax({

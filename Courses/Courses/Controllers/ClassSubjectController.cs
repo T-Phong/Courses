@@ -11,6 +11,20 @@ namespace Courses.Controllers
         SourceDbContext db = new SourceDbContext();
 
         //----------------------------Json Result -----------------------------
+        //POST:Edit subject
+        public JsonResult EditSubject(ClassSubject s)
+        {
+            var query = from cs in db.Subject
+                        where cs.IDSubject == s.IDSubject
+                        select cs;
+            foreach (ClassSubject obj in query)
+            {
+                obj.IDSubject = s.IDSubject;
+                obj.SubjectName = s.SubjectName;
+                obj.IDClass = s.IDClass;
+            }
+            return Json(db.SaveChanges(), JsonRequestBehavior.AllowGet);
+        }
         // Get: Subject
         public JsonResult GetSubjectByID(string id)
         {

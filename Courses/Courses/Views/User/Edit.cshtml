@@ -62,18 +62,24 @@
             TypeUser: $('#TypeUser').val(),
             IDClass: classid
         }; 
-        $.ajax({
-            url: "/User/EditUser",
-            data: JSON.stringify(empObj),
-            type: "POST",
-            contentType: "application/json;charset=utf-8",
-            dataType: "json",
-            success: function (result) {
-                alert("success");
-            },
-            error: function (errormessage) {
-                alert(errormessage.responseText);
-            }
-        });
+        if (empObj.IDUser == "" || empObj.Name == "" || empObj.DOB == "" || empObj.TypeUser == "") {
+            alert("Ban chua dien day du thong tin");
+        }
+        else {
+            $.ajax({
+                url: "/User/EditUser",
+                data: JSON.stringify(empObj),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    alert("success");
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }
+        
     }
 </script>
